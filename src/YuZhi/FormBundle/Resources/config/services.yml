@@ -1,0 +1,5 @@
+services:
+  yuzhi.form.builder:
+    class: YuZhi\FormBundle\Form\Form
+    public: true
+    arguments: ["@service_container"]

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0dc82029-04b2-41c3-bf66-a1e826c53242" name="122.152.194.95" url="http://122.152.194.95">
+        <fileTransfer host="122.152.194.95" port="22" rootFolder="/www/wwwroot/heyi.zoro.net.cn" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

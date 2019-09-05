@@ -1,0 +1,33 @@
+services:
+  admin_service:
+    public: true
+    class: 'AdminBundle\Service\AdminService'
+    arguments: ["@service_container"]
+  admin_member_service:
+    public: true
+    class: 'AdminBundle\Service\MemberService'
+    arguments: ["@service_container"]
+  category_service:
+    public: true
+    class: 'AdminBundle\Service\CategoryService'
+    arguments: ["@service_container"]
+  admin_needs_service:
+    public: true
+    class: 'AdminBundle\Service\NeedsService'
+    arguments: ["@service_container"]
+  admin_merchant_service:
+    public: true
+    class: 'AdminBundle\Service\MerchantService'
+    arguments: ["@service_container"]
+  admin_appointment_service:
+    public: true
+    class: 'AdminBundle\Service\MerchantService'
+    arguments: ["@service_container"]
+  admin_notice_service:
+    public: true
+    class: 'AdminBundle\Service\NoticeService'
+    arguments: ["@service_container"]
+  admin_swiper_service:
+    public: true
+    class: 'AdminBundle\Service\SwiperService'
+    arguments: ["@service_container"]

@@ -1,0 +1,265 @@
+{% use "bootstrap_base_layout.html.twig" %}
+
+{# Widgets #}
+{% block avatar_widget -%}
+    <div class="form_uploadfile" style="background:url('{{ value }}') no-repeat center center">
+        <div class="up" style="">
+            <input type="hidden" id="{{ id }}" name="form[{{ name }}]" value="{{ value }}">
+            <input onchange="bindChangeUploadFile(this, '{{ id }}')" type="file"
+                   style="position: absolute;left: 0;top: 0;bottom: 0;right: 0;width:120px;height:120px;opacity: 0">
+        </div>
+    </div>
+{%- endblock avatar_widget %}
+
+{% block select_member_widget %}
+    <div style="position: relative">
+        <input id="{{ id }}" class="form-control" type="text" placeholder="输入会员昵称搜索">
+        <button onclick="selectUser('{{ url }}', document.getElementById('{{ id }}').value)" type="button" style="position: absolute; top: 5px; right: 0px; font-size: 16px;background: transparent" class="fa-search btn"></button>
+    </div>
+    <div class="row" style="padding: 10px 0;">
+        <div id="user_{{ id }}"  class="col-xs-2">
+            <img style="width: 66px;height: 66px;" src="" alt="">
+            <span></span>
+            <input type="hidden" name="form[{{ name }}]">
+        </div>
+    </div>
+    <script>
+        var uid = {{ app.request.get('uid') | default(0) }};
+        $(function () {
+            if(uid > 0) {
+                selectUser('{{ url }}', '', uid);
+            }
+        });
+        function selectUser(url, value, uid) {
+            $.ajax({
+                url: url,
+                type: 'get',
+                data: {
+                    nickname: value,
+                    uid: uid
+                },
+                success: function (ret) {
+                    if(ret.error > 0) {
+                        alert(ret.msg);
+                    }else {
+                        $('#user_{{ id }}').find('img').attr('src', ret.data.user.avatar);
+                        $('#user_{{ id }}').find('span').text(ret.data.user.nickname);
+                        $('#user_{{ id }}').find('input').val(ret.data.user.uid);
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock select_member_widget %}
+
+{% block picture_upload_widget -%}
+    <div class="weui-uploader">
+        <div class="weui-uploader__bd">
+            <ul class="weui-uploader__files" id="{{ id }}" style="padding: 0;">
+                {% for val in value %}
+                <li class="weui-uploader__file" style="background-image:url('{{ val }}')"><img class="delete" src="data:image/png;base64,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" alt="">
+                    <input name="form[{{ name }}][]" value="{{ val }}" type="hidden">
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="weui-uploader__input-box">
+                <input onchange="multiplexUpload(this, '{{ id }}', '{{ name }}')" class="weui-uploader__input" type="file">
+            </div>
+        </div>
+    </div>
+{%- endblock picture_upload_widget %}
+
+{% block ueditor_widget -%}
+    <textarea style="border: 0;width: 100%;height: 300px" {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <script>
+        $(function () {
+            UE.getEditor('{{ id }}');
+        })
+    </script>
+{%- endblock ueditor_widget %}
+
+{% block form_widget_simple -%}
+    {% if type is not defined or type not in ['file', 'hidden'] %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{% block button_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('btn-default') ~ ' btn')|trim}) -%}
+    {{- parent() -}}
+{%- endblock button_widget %}
+
+{% block money_widget -%}
+    {% set prepend = not (money_pattern starts with '{{') %}
+    {% set append = not (money_pattern ends with '}}') %}
+    {% if prepend or append %}
+        <div class="input-group">
+            {% if prepend %}
+                <span class="input-group-addon">{{ money_pattern|form_encode_currency }}</span>
+            {% endif %}
+            {{- block('form_widget_simple') -}}
+            {% if append %}
+                <span class="input-group-addon">{{ money_pattern|form_encode_currency }}</span>
+            {% endif %}
+        </div>
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock money_widget %}
+
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% if 'checkbox-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {% else -%}
+        <div class="checkbox">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- endif -%}
+{%- endblock checkbox_widget %}
+
+{% block radio_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {%- if 'radio-inline' in parent_label_class -%}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {%- else -%}
+        <div class="radio">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- endif -%}
+{%- endblock radio_widget %}
+
+{# Labels #}
+
+{% block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label %}
+
+{% block choice_label -%}
+    {# remove the checkbox-inline and radio-inline class, it's only useful for embed labels #}
+    {%- set label_attr = label_attr|merge({class: label_attr.class|default('')|replace({'checkbox-inline': '', 'radio-inline': ''})|trim}) -%}
+    {{- block('form_label') -}}
+{% endblock %}
+
+{% block checkbox_label -%}
+    {%- set label_attr = label_attr|merge({'for': id}) -%}
+
+    {{- block('checkbox_radio_label') -}}
+{%- endblock checkbox_label %}
+
+{% block radio_label -%}
+    {%- set label_attr = label_attr|merge({'for': id}) -%}
+
+    {{- block('checkbox_radio_label') -}}
+{%- endblock radio_label %}
+
+{% block checkbox_radio_label -%}
+    {# Do not display the label if widget is not defined in order to prevent double label rendering #}
+    {%- if widget is defined -%}
+        {%- if required -%}
+            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) -%}
+        {%- endif -%}
+        {%- if parent_label_class is defined -%}
+            {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) -%}
+        {%- endif -%}
+        {%- if label is not same as(false) and label is empty -%}
+            {%- if label_format is not empty -%}
+                {%- set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) -%}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
+            {{- widget|raw }} {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+        </label>
+    {%- endif -%}
+{%- endblock checkbox_radio_label %}
+
+{# Rows #}
+
+{% block form_row -%}
+    <div class="{{ form.vars.id }} form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row %}
+
+{% block button_row -%}
+    <div class="form-group">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
+
+{% block choice_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock choice_row %}
+
+{% block date_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock date_row %}
+
+{% block time_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock time_row %}
+
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div style="display: flex" {{ block('widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}
+
+{% block dateinterval_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock dateinterval_row %}
+
+{% block checkbox_row -%}
+    <div class="form-group{% if not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock checkbox_row %}
+
+{% block radio_row -%}
+    <div class="form-group{% if not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock radio_row %}
+
+{% block submit_row %}
+    <div style="margin-top: 30px" class="form-group">
+        <button type="submit" class="btn btn-primary">{{ label }}</button>
+    </div>
+{%- endblock submit_row %}
+
+{# Errors #}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form is not rootform %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+        {% if form is not rootform %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}

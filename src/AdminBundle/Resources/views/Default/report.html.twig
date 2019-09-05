@@ -1,0 +1,35 @@
+{% extends '@Admin/iframe_base.html.twig' %}
+
+  {% block content %}
+      <div class="row" id="root" style="margin-top: 25px">
+          <div class="col-sm-6">
+              <div style="box-shadow: 1px 3px 9px #dedede;" class="xe-widget xe-counter" data-count=".num" data-from="0"
+                   data-to="{{ newMembersToday }}"
+                   data-suffix="人" data-duration="2">
+                  <div class="xe-icon">
+                      <i class="linecons-fire"></i>
+                  </div>
+                  <div class="xe-label">
+                      <strong class="num"></strong>
+                      <span style="font-size: 14px">今日新增会员</span>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6">
+              <div style="box-shadow: 1px 3px 3px #dedede;" class="xe-widget xe-counter xe-counter-info"
+                   data-count=".num" data-from="0" data-to="{{ totalMembership }}"
+                   data-suffix="人" data-duration="2">
+                  <div class="xe-icon">
+                      <i class="linecons-user"></i>
+                  </div>
+                  <div class="xe-label">
+                      <strong class="num"></strong>
+                      <span style="font-size: 14px">会员总数</span>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+  {% endblock %}

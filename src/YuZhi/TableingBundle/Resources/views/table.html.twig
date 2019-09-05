@@ -1,0 +1,64 @@
+{% if tableView.topButton %}
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-xs-12">
+            {% for btn in tableView.topButton %}
+                {% if btn.class is defined %}
+                    {% set class = btn.class %}
+                {% else %}
+                    {% set class = 'btn btn-turquoise ' %}
+                {% endif %}
+
+                {% if btn.popup is defined and btn.popup == true %}
+                    {% set popup = 'popup=true data-title data-height=350px'  %}
+                {% else %}
+                    {% set popup = '' %}
+                {% endif %}
+                <a
+                        {% if btn.confirm is defined %} onclick="if(!confirm('{{ btn.confirm }}')){return false}"{% endif %}
+                        {{ popup }} class="{{ class }}" href="{{ btn.url }}">
+                    <i class="{%  if btn.icon is defined %}{{ btn.icon }}{% endif %}"></i>
+                    {{ btn.title }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+<div class="row" style="margin-bottom: 20px">
+    {% if tableView.filter %}
+        {% for value in tableView.filter %}
+            <div class="col-xs-2">
+                <select onchange="window.location.href= '?{{ value.name }}=' + this.value + '&{{ table_url(value.name) }}';" name="{{ value.name }}" class="form-control">
+                    {% if value.default %}
+                        <option value="">{{ value.default }}</option>
+                    {% endif %}
+                    {% for k,v in value.choice %}
+                        <option {% if app.request.get(value.name) == k and app.request.get(value.name)!= '' %}selected{% endif %} value="{{ k }}">{{ v }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if tableView.topSearch %}
+        <div class="col-xs-3">
+            <form action="{{ tableView.topSearch.action }}">
+                <div class="search" style="position: relative">
+                    <input name="{{ tableView.topSearch.name }}" type="text" value="{{ app.request.get(tableView.topSearch.name) }}" class="form-control"
+                           placeholder="{{ tableView.topSearch.title }}">
+                    <button type="submit"
+                            style="position: absolute; top: 5px; right: 0px; font-size: 16px;background: transparent"
+                            class="fa-search btn"></button>
+                    {% if app.request.get(tableView.topSearch.name) %}
+                    <button onclick="window.location.href='{{ table_path() }}'" type="button"
+                            style="position: absolute; top: 5px; right: 50px; font-size: 16px;background: transparent"
+                            class="fa-remove btn"></button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<table class="table table-bordered table-striped">
+    {{ table_thead(tableView) }}
+    {{ table_tbody(tableView) }}
+</table>

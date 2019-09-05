@@ -1,0 +1,29 @@
+{% if tableView.getActions() %}
+    <td>
+        {% for btn in tableView.getActions() %}
+            {% if table_action_closure(btn) %}
+                {{ table_callable(btn, item) }}
+            {% else %}
+                {% if btn.class is defined %}
+                    {% set class = btn.class %}
+                {% else %}
+                    {% set class = 'btn btn-turquoise ' %}
+                {% endif %}
+
+                {% if btn.popup is defined and btn.popup == true %}
+                    {% set popup = 'popup="true" data-title data-height=350px' %}
+                {% else %}
+                    {% set popup = '' %}
+                {% endif %}
+
+                <a
+                        {% if btn.confirm is defined %} onclick="if(!confirm('{{ btn.confirm }}')){return false}"{% endif %}
+
+                        {{ popup }} class="{{ class }}" target="{{ btn.target | default("") }}"
+                                    href="{{ btn.url | replace({'{%id%}': pk_value}) }}">{{ btn.title }}</a>
+
+
+            {% endif %}
+        {% endfor %}
+    </td>
+{% endif %}

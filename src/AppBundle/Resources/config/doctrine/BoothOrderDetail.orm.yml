@@ -1,0 +1,63 @@
+AppBundle\Entity\BoothOrderDetail:
+    type: entity
+    table: booth_order_detail
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        orderNo:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 订单编号
+            column: order_no
+        boothTitle:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 摊位名称
+            column: booth_title
+        boothNumber:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 摊位编号
+            column: booth_number
+        boothPrice:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 摊位价格
+            column: booth_price
+        boothSize:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 摊位大小
+            column: booth_size
+        boothStarttime:
+            type: datetime
+            nullable: false
+            options:
+                comment: 开始时间
+            column: booth_starttime
+        boothEndtime:
+            type: datetime
+            nullable: false
+            options:
+                comment: 结束时间
+            column: booth_endtime
+    lifecycleCallbacks: {  }

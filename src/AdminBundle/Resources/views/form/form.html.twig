@@ -1,0 +1,11 @@
+{% extends '@Admin/iframe_base.html.twig' %}
+
+{% block content %}
+    <div class="panel panel-default" style="padding: 0 10px 10px 10px">
+        <div class="panel-body" style="padding-top: 0;">
+            {% block form %}
+                {{ form(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate'}}) }}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

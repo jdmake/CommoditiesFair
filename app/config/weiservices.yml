@@ -1,0 +1,4 @@
+parameters:
+
+  rolePaths:
+    "全部权限": "*"

@@ -1,0 +1,5 @@
+{% if col.type == 'text' %}
+    {{ col.value | default(col.default) }}
+{% else %}
+    {{ table_component(pk_value, col) }}
+{% endif %}

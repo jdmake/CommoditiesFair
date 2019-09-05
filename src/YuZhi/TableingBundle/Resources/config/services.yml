@@ -1,0 +1,10 @@
+services:
+    yuzhi_tableing.table_builder:
+        public: true
+        class: YuZhi\TableingBundle\Tableing\TableBuilder
+        arguments: ["@service_container"]
+
+    tableing.twig_extension:
+        class: YuZhi\TableingBundle\Twig\Extension\TableingExtension
+        tags:
+            - { name: twig.extension }

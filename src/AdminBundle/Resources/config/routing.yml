@@ -1,0 +1,3 @@
+admin_homepage:
+    resource: '@AdminBundle/Controller/'
+    type: annotation

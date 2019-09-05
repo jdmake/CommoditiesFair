@@ -1,0 +1,15 @@
+<tbody>
+{% for var in tableView.getRows() %}
+    <tr>
+        {% for col in var.getChildren() %}
+            <td>{{ table_widget(var.getPkValue(), col) }}</td>
+        {% endfor %}
+        {{ table_actions(tableView, var) }}
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="{{ tableView.getThead() | length }}"><div class="row" style="text-align: center;margin: 25px">没有任何数据</div></td>
+    </tr>
+{% endfor %}
+
+</tbody>

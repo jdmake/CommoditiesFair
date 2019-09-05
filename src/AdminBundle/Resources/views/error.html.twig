@@ -1,0 +1,46 @@
+{% extends '@Admin/iframe_base.html.twig' %}
+
+{% block content %}
+
+    <div class="page-error centered" style="padding-top: 0;margin-top: 0">
+
+        <div class="error-symbol">
+            <i class="text-danger fa fa-remove"></i>
+            <small style="font-size: 33px" class="text-danger">操作失败</small>
+        </div>
+
+        <h3 class="text-danger" style="font-size: 16px">
+            {% autoescape false %}
+                {{ msg }}
+            {% endautoescape %}
+        </h3>
+
+        <p style="font-size: 14px; color: #0b4b97">{{ timeout }} 秒后将为你跳转</p>
+        <p style="font-size: 14px; color: #0b4b97">
+
+            <a class="btn-link" href="{{ url ?: 'javascript:parent.window.location.reload();' }}">
+                <u>如果没有自动跳转，手动点击 跳转</u>
+            </a>
+
+        </p>
+
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            setTimeout(function () {
+                {% if url %}
+                {% if parent %}
+                parent.window.location.href = '{{ url }}';
+                {% else %}
+                window.location.href = '{{ url }}';
+                {% endif %}
+                {% else %}
+                parent.window.location.reload();
+                {% endif %}
+
+            }, {{ timeout*1000 }});
+        })
+    </script>
+{% endblock %}
+
+
