@@ -17,7 +17,7 @@
                 {% endif %}
 
                 <a
-                        {% if btn.confirm is defined %} onclick="if(!confirm('{{ btn.confirm }}')){return false}"{% endif %}
+                        {% if btn.confirm is defined %} onclick="if(!confirm('{{ btn.confirm }}', '{{ btn.url | replace({"{%id%}": pk_value}) }}')){return false}"{% endif %}
 
                         {{ popup }} class="{{ class }}" target="{{ btn.target | default("") }}"
                                     href="{{ btn.url | replace({'{%id%}': pk_value}) }}">{{ btn.title }}</a>

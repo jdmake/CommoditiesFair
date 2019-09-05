@@ -1,31 +1,26 @@
 {% extends '@Admin/iframe_base.html.twig' %}
 {% block content %}
-    <div id="root" class="panel panel-default">
-        <div class="panel-heading">
-            展位地图
-        </div>
-        <div class="panel-body">
-            <div v-for="i in row" class="booth__row" :style="{ width: (108 * col) + 'px' }">
+    <div id="root">
+        <div v-for="i in row" class="booth__row" :style="{ width: (108 * col) + 'px' }">
+            <div
+                    v-for="j in col"
+                    :class="'booth__col ' + (booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'booth__col_on' : '') : '') : '')">
                 <div
-                     v-for="j in col"
-                     :class="'booth__col ' + (booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'booth__col_on' : '') : '') : '')">
-                    <div
                         v-if="booths[i-1] && booths[i-1][j-1] && booths[i-1][j-1]['title']">
-                        <div class="title" v-html="booths[i-1][j-1]['title']"></div>
-                        <div class="number" v-html="booths[i-1][j-1]['number']"></div>
-                        <div class="price" v-html="booths[i-1][j-1]['price'] + '元'"></div>
-                        <div class="category" v-html="booths[i-1][j-1]['categoryName']"></div>
-                        <div class="tips">
-                            <a @click="handleColClick" :data-row="i-1" :data-col="j-1" :data-type="(booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'edit' : 'add') : '') : '')" href="javascript:void(0);">编辑</a>
-                            <a @click="handleRemove" :data-row="i-1" :data-col="j-1" href="javascript:void(0);">删除</a>
-                        </div>
+                    <div class="title" v-html="booths[i-1][j-1]['title']"></div>
+                    <div class="number" v-html="booths[i-1][j-1]['number']"></div>
+                    <div class="price" v-html="booths[i-1][j-1]['price'] + '元'"></div>
+                    <div class="category" v-html="booths[i-1][j-1]['categoryName']"></div>
+                    <div class="tips">
+                        <a @click="handleColClick" :data-row="i-1" :data-col="j-1" :data-type="(booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'edit' : 'add') : '') : '')" href="javascript:void(0);">编辑</a>
+                        <a @click="handleRemove" :data-row="i-1" :data-col="j-1" href="javascript:void(0);">删除</a>
                     </div>
-                    <div style="width: inherit;height: inherit;" v-else
-                         :data-row="i-1" :data-col="j-1" :data-type="(booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'edit' : 'add') : '') : '')"
-                         @click="handleColClick"></div>
                 </div>
-                <div style="clear: both"></div>
+                <div style="width: inherit;height: inherit;" v-else
+                     :data-row="i-1" :data-col="j-1" :data-type="(booths[i-1] ? (booths[i-1][j-1] ? (booths[i-1][j-1]['title'] ? 'edit' : 'add') : '') : '')"
+                     @click="handleColClick"></div>
             </div>
+            <div style="clear: both"></div>
         </div>
     </div>
 
@@ -68,7 +63,6 @@
                         type: 2,
                         title: '编辑展位, ' + row + '行，' + col + '列',
                         shadeClose: true,
-                        shade: true,
                         maxmin: true, //开启最大化最小化按钮
                         area: ['40%', '80%'],
                         content: content

@@ -4,43 +4,36 @@
  *
 */
 
-body {
-    background: #fff;
-}
+.page-container .main-content {
 
-a {
 }
-
-.sidebar-menu {
-    width: 200px;
-}
-
-.user-info-navbar {
-    margin-bottom: 0;
-}
-
-.nav.nav-tabs {
-    margin-top: 1rem;
-    background: transparent;
-}
-
-.nav.nav-tabs > li .close {
-    margin-left: 20px;
-}
-
-.nav.nav-tabs > li > a {
-    border: 1px solid transparent;
+.nav.nav-tabs + .tab-content {
     margin: 0;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0;
 }
-
-.nav.nav-tabs > li > a:hover {
-    border: 1px solid #dddddd;
+.tab-content {
 }
-
-.user-info-navbar .user-info-menu > li > a {
-    padding: 15px 20px;
+.user-info-navbar {
+    margin: 0;
+}
+.page-container .main-content {
+    padding: 0;
+}
+.nav.nav-tabs {
+    background: #fff;
+    margin-top: 1px;
+}
+.nav.nav-tabs > li > a {
+    background: #fff;
+    margin-right: 0;
+}
+.nav.nav-tabs > li > a:focus {
+    border: unset;
+    background-color: #ffffff;
+}
+.nav.nav-tabs > li.active > a {
+    background: #efefef;
+    border-top: solid 3px #333;
 }
 
 .form_uploadfile {

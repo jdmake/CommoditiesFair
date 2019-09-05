@@ -301,7 +301,14 @@ var public_vars = public_vars || {};
             });
         }
 
-
+        window.confirm = function (title, url) {
+            layer.confirm(title, {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                window.location.href = url;
+            });
+            return false;
+        };
 
         // Datepicker
         if ($.isFunction($.fn.datepicker)) {
