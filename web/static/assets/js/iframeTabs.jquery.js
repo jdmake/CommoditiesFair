@@ -21,7 +21,7 @@
             const iframe = this.iframes.find("iframe");
             $(document).ready(function () {
                 $(window.parent.document).resize(function () {
-                    const height = $(window.parent.document).height() - 90;
+                    const height = $(window.parent.document).height() - 91;
                     iframe.height(height);
                 });
                 $(window.parent.document).resize();

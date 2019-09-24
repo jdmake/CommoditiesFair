@@ -29,6 +29,7 @@ class BoothController extends AbsController
         ]);
     }
 
+
     /**
      * @Route("/getBooths", name="admin_booth_getBooths")
      */

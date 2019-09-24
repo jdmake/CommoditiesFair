@@ -18,6 +18,11 @@ class BoothOrderDetail
     private $orderNo;
 
     /**
+     * @var integer
+     */
+    private $boothId;
+
+    /**
      * @var string
      */
     private $boothTitle;
@@ -81,6 +86,23 @@ class BoothOrderDetail
     {
         return $this->orderNo;
     }
+
+    /**
+     * @return int
+     */
+    public function getBoothId()
+    {
+        return $this->boothId;
+    }
+
+    /**
+     * @param int $boothId
+     */
+    public function setBoothId($boothId)
+    {
+        $this->boothId = $boothId;
+    }
+
 
     /**
      * Set boothTitle.

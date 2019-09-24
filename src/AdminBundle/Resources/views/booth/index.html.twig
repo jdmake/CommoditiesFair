@@ -1,4 +1,7 @@
 {% extends '@Admin/iframe_base.html.twig' %}
+{% block bodyStyle %}
+    style="background: #efefef;padding: 15px"
+{% endblock %}
 {% block content %}
     <div id="root">
         <div v-for="i in row" class="booth__row" :style="{ width: (108 * col) + 'px' }">

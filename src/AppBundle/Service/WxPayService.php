@@ -13,9 +13,9 @@ namespace AppBundle\Service;
  */
 class WxPayService extends AbsService
 {
-    private $appid = 'wxdcab8fbe5785c92e';
-    private $key = "ba5954abbe0302c6c409ed9d3bd17f7b";
-    private $mch_id = "1549604581";
+    private $appid = 'wx4a53f0b36a8357b7';
+    private $key = "HEyizhanhui43949426484HEYIZHANHU";
+    private $mch_id = "1556252141";
 
     /**
      * 统一下单
@@ -28,7 +28,7 @@ class WxPayService extends AbsService
         $pay['body'] = $body;               //商品描述
         $pay['mch_id'] = $this->mch_id;         //商户号
         $pay['nonce_str'] = $nonce;             //随机字符串
-        $pay['notify_url'] = 'https://pioneerpark.zoro.net.cn/v1/wxpay/notify_url';
+        $pay['notify_url'] = 'https://heyi.zoro.net.cn/v1/wxpay/notify_url';
         $pay['openid'] = $openid;
         $pay['out_trade_no'] = $order_no;       //订单号
         $pay['spbill_create_ip'] = $_SERVER['SERVER_ADDR']; // 终端IP

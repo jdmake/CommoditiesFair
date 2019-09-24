@@ -27,6 +27,10 @@ class SessionFilter
             '/v1/booth/getAgreement',
             '/v1/member/getUserInfo',
             '/v1/boothOrder/getWaitPayBoothOrderCount',
+            '/v1/wxpay/notify_url',
+            '/v1/setting/getCustomerPhone',
+            '/v1/member/getUserInfo',
+            '/v1/boothOrder/getWaitPayBoothOrderCount',
         ];
         if(!in_array($request->getPathInfo(), $allows)) {
             if (!(new Session())->get('user')) {

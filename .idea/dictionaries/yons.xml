@@ -8,13 +8,18 @@
       <w>isuse</w>
       <w>lastlogintime</w>
       <w>miniapp</w>
+      <w>phpqrcode</w>
       <w>profileid</w>
+      <w>qrcode</w>
+      <w>rcode</w>
       <w>regtime</w>
       <w>soldout</w>
       <w>soldoutbooth</w>
       <w>starttime</w>
       <w>tableing</w>
       <w>ueditor</w>
+      <w>verificationuser</w>
+      <w>wxpay</w>
       <w>yuzhi</w>
     </words>
   </dictionary>

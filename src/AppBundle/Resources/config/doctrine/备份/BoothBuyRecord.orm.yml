@@ -1,0 +1,53 @@
+AppBundle\Entity\BoothBuyRecord:
+    type: entity
+    table: booth_buy_record
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 用户UID
+        boothId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 展位ID
+            column: booth_id
+        total:
+            type: float
+            nullable: false
+            precision: 9
+            scale: 2
+            options:
+                comment: 交易金额
+        verificationCode:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 核销码
+            column: verification_code
+        createAt:
+            type: datetime
+            nullable: false
+            options:
+                comment: 交易时间
+            column: create_at
+        isuse:
+            type: boolean
+            nullable: false
+            options:
+                comment: 是否核销过
+    lifecycleCallbacks: {  }

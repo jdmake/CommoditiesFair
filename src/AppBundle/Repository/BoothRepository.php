@@ -37,7 +37,7 @@ class BoothRepository extends EntityRepository
         $query->setFirstResult(0);
         $query->setMaxResults(1);
 
-        $res = $query->getQuery()->getResult();
+        $res = $query->getQuery()->getArrayResult();
         return $res ? $res[0] : null;
     }
 

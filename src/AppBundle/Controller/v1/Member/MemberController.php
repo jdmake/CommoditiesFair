@@ -30,7 +30,9 @@ class MemberController extends CommonController
     public function getUserInfoAction(MemberService $memberService)
     {
         $user = $memberService->findByUid($this->getUserSession('uid'));
-
+        $user['isVerification'] = $this->getDoctrine()->getRepository('AppBundle:BoothVerificationUser')->findOneBy([
+            'uid' => $user['uid']
+        ]) ? true : false;
         return $this->jsonSuccess('获取用户资料', $user);
     }
 

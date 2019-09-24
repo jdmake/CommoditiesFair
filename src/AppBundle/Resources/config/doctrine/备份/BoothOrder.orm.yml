@@ -1,0 +1,89 @@
+AppBundle\Entity\BoothOrder:
+    type: entity
+    table: booth_order
+    repositoryClass: AppBundle\Repository\BoothOrderRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 下单用户UID
+        orderNo:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 订单号码
+            column: order_no
+        total:
+            type: float
+            nullable: false
+            precision: 9
+            scale: 2
+            options:
+                comment: 订单金额
+        isinvoice:
+            type: boolean
+            nullable: false
+            options:
+                comment: 是否开票
+        invoiceid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 发票ID
+        payChannel:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 支付渠道
+            column: pay_channel
+        payTime:
+            type: datetime
+            nullable: false
+            options:
+                comment: 支付时间
+            column: pay_time
+        outTradeNo:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+                comment: 第三方支付工具流水号
+            column: out_trade_no
+        createAt:
+            type: datetime
+            nullable: false
+            options:
+                comment: 下单时间
+            column: create_at
+        remarks:
+            type: string
+            nullable: false
+            length: 1000
+            options:
+                fixed: false
+                comment: 备注
+        orderStatus:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: '订单状态，0.未付款,1.已付款,2.取消交易'
+            column: order_status
+    lifecycleCallbacks: {  }

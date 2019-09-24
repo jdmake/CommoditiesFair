@@ -76,12 +76,12 @@ class BoothOrderController extends AbsController
             ->addAction('操作', [
                 new LinkButton([
                     'title' => '改变状态',
-                    'url' => '/admin/transaction/boothorder/changeOrderStatus?id={%id%}',
+                    'url' => '/admin/transaction/boothorder/changeOrderStatus?id={%id%}?status=' . $status,
                     'popup' => true
                 ]),
                 new LinkButton([
                     'title' => '清除',
-                    'url' => '/admin/transaction/boothorder/delete?id={%id%}',
+                    'url' => '/admin/transaction/boothorder/delete?id={%id%}&status=' . $status,
                     'confirm' => '真的要删除吗？',
                     'class' => 'btn btn-pink'
                 ]),
@@ -160,6 +160,8 @@ class BoothOrderController extends AbsController
     public function deleteAction()
     {
         $id = $this->request()->get('id');
+        $status = $this->request()->get('status');
+
         $entry = $this->getDoctrine()->getRepository('AppBundle:BoothOrder')
             ->find($id);
         if(!$entry) {
@@ -170,6 +172,6 @@ class BoothOrderController extends AbsController
         $this->getManager()->flush($entry);
 
 
-        return $this->success('删除成功', 1, '/admin/transaction/boothorder/');
+        return $this->success('删除成功', 1, '/admin/transaction/boothorder/?status=' . $status, false);
     }
 }

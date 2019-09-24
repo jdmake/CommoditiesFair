@@ -39,10 +39,48 @@ class BoothService extends AbsService
                 if (!$entry) {
                     $entry = [];
                 }
+                // 是否已售出
+                $entry['is_soldout'] = $this->getDoctrine()->getRepository('AppBundle:BoothBuyRecord')
+                    ->findOneBy([
+                        'boothId' => $entry['id']
+                    ]) ? true : false;
                 $booths[$i][$j] = $entry;
             }
         }
         return $booths;
+    }
+
+    /**
+     * 获取上传记录
+     * @param $uid
+     * @return array
+     */
+    public function getUpdateLog($uid)
+    {
+        $query = $this->getEm()->createQueryBuilder();
+        $query->select('a')
+            ->from('AppBundle:SalesRecord', 'a')
+            ->where('a.uid=:uid')
+            ->setParameter('uid',$uid)
+            ->setFirstResult(0)
+            ->setMaxResults(5)
+            ->orderBy('a.reportTime', 'desc');
+
+        return $query->getQuery()->getArrayResult();
+    }
+
+    public function getMyBoothChoice($uid)
+    {
+        $query = $this->getEm()->createQueryBuilder();
+        $query->select('b.id, b.title')
+            ->from('AppBundle:BoothBuyRecord', 'a')
+            ->innerJoin('AppBundle:Booth', 'b', 'WITH', 'a.boothId=b.id')
+            ->where('a.uid=:uid')
+            ->setParameter('uid', $uid)
+            ->orderBy('a.createAt', 'desc');
+        $res =$query->getQuery()->getArrayResult();
+
+        return $res;
     }
 
     /**
@@ -118,13 +156,11 @@ class BoothService extends AbsService
             ->innerJoin('AppBundle:Booth', 'b', 'WITH', 'a.boothId=b.id')
             ->where('a.uid=:uid')
             ->setParameter('uid', $uid)
+            ->andWhere('a.isuse=:isuse')
+            ->setParameter('isuse', $isuse)
             ->setFirstResult(($page - 1) * $size)
             ->setMaxResults($size)
             ->orderBy('a.createAt', 'desc');
-
-        if ($isuse != '') {
-            $query->andWhere('a.isuse=:isuse')->setParameter('isuse', $isuse);
-        }
 
         $list = $query->getQuery()->getResult();
         foreach ($list as &$item) {

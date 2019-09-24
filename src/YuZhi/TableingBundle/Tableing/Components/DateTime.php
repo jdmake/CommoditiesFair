@@ -19,7 +19,7 @@ class DateTime implements TableComponentInterface
      * DateTime constructor.
      * @param string $format
      */
-    public function __construct($format)
+    public function __construct($format = 'Y-m-d H:i')
     {
         $this->format = $format;
     }

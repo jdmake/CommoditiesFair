@@ -3,7 +3,7 @@
         <i class="fa-calculator"></i>
         <span class="title">交易明细</span>
     </a>
-    <ul >
+    <ul>
         <li>
             <a iframe href="{{ path('admin_transaction_soldoutbooth') }}">
                 已售展位
@@ -21,7 +21,7 @@
         <i class="fa-sitemap"></i>
         <span class="title">展位管理</span>
     </a>
-    <ul >
+    <ul>
         <li>
             <a iframe href="{{ path('admin_booth_category') }}">
                 分类管理
@@ -39,7 +39,7 @@
         <i class="fa-users"></i>
         <span class="title">用户管理</span>
     </a>
-    <ul >
+    <ul>
         <li>
             <a iframe href="{{ path('admin_member_index') }}">
                 会员粉丝
@@ -52,11 +52,34 @@
         <i class="fa-key"></i>
         <span class="title">权限管理</span>
     </a>
-    <ul >
-            <li>
-                <a iframe href="{{ path('admin_manager_index') }}">
-                    管理员
-                </a>
-            </li>
+    <ul>
+        <li>
+            <a iframe href="{{ path('admin_booth_verificationuser') }}">
+                核销人员
+            </a>
+        </li>
+        <li>
+            <a iframe href="{{ path('admin_manager_index') }}">
+                管理员
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="has-sub">
+    <a href="#">
+        <i class="fa-cogs"></i>
+        <span class="title">系统设置</span>
+    </a>
+    <ul>
+        <li>
+            <a iframe href="{{ path('admin_agreement_edit') }}">
+                展位协议
+            </a>
+        </li>
+        <li>
+            <a iframe href="{{ path('admin_customer_edit') }}">
+                客服电话
+            </a>
+        </li>
     </ul>
 </li>

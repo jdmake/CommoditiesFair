@@ -43,6 +43,14 @@ services:
     public: true
     class: 'AppBundle\Service\WxBaseService'
     arguments: ["@service_container"]
+  qrcode_service:
+    public: true
+    class: 'AppBundle\Service\QRcodeService'
+    arguments: ["@service_container"]
+  wxpay_service:
+    public: true
+    class: 'AppBundle\Service\WxPayService'
+    arguments: ["@service_container"]
   booth_service:
     public: true
     class: 'AppBundle\Service\BoothService'

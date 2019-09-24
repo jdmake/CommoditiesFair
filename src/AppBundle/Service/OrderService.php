@@ -92,6 +92,20 @@ class OrderService extends AbsService
         return $res;
     }
 
+    /**
+     * 获取订单详情
+     * @param $order_no
+     * @return BoothOrderDetail|object|null
+     */
+    public function getBoothOrderDetail($order_no)
+    {
+        $res = $this->getDoctrine()->getRepository('AppBundle:BoothOrderDetail')
+            ->findOneBy([
+                'orderNo' => $order_no,
+            ]);
+
+        return $res;
+    }
 
     public function createOrder($uid, $bid, $contacts, $mobile)
     {
@@ -138,6 +152,7 @@ class OrderService extends AbsService
         // 创建订单详情
         $orderDetailEntry = new BoothOrderDetail();
         $orderDetailEntry->setOrderNo($order_no);
+        $orderDetailEntry->setBoothId($boothEntry->getId());
         $orderDetailEntry->setBoothTitle($boothEntry->getTitle());
         $orderDetailEntry->setBoothNumber($boothEntry->getNumber());
         $orderDetailEntry->setBoothPrice($boothEntry->getPrice());
