@@ -15,6 +15,12 @@ class MemberService extends AbsService
 {
     use EntryPaginatorTrait;
 
+    public function getMember($uid)
+    {
+        return $this->getDoctrine()->getRepository('AppBundle:Member')
+            ->find($uid);
+    }
+
     /**
      * 获取用户详情
      */

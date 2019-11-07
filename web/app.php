@@ -9,7 +9,7 @@ if (PHP_VERSION_ID < 70000) {
 }
 
 define('UPLOAD_PATH', __DIR__ . '/../web/static/');
-define('STATIC_URL', 'https://pioneerpark.zoro.net.cn/static/');
+define('STATIC_URL', 'https://heyi.zoro.net.cn/static/');
 
 $kernel = new AppKernel('prod', true);
 if (PHP_VERSION_ID < 70000) {

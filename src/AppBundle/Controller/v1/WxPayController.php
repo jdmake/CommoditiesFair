@@ -83,6 +83,16 @@ class WxPayController extends CommonController
                         $this->getDoctrine()->getManager()->flush();
                     }
                 }
+                // 改变预约记录状态
+                $bookingEntry = $this->getDoctrine()->getRepository('AppBundle:BoothBooking')
+                    ->findOneBy([
+                        'uid' => $order_entry->getUid(),
+                        'boothId' => $order_detail_entry->getBoothId()
+                    ]);
+                if($bookingEntry) {
+                    $bookingEntry->setStatus(3);
+                    $this->getDoctrine()->getManager()->flush();
+                }
 
                 return new Response('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA]></return_msg></xml>');
             }else {

@@ -1,4 +1,8 @@
 services:
+  admin_wxapi_service:
+    public: true
+    class: 'AdminBundle\Service\WxApiService'
+    arguments: ["@service_container"]
   admin_service:
     public: true
     class: 'AdminBundle\Service\AdminService'

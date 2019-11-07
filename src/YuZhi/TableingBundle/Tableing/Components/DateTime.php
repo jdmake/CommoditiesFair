@@ -9,8 +9,6 @@
 namespace YuZhi\TableingBundle\Tableing\Components;
 
 
-use ClassesWithParents\D;
-
 class DateTime implements TableComponentInterface
 {
     private $format = '';

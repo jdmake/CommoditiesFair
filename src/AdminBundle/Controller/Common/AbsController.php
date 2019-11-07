@@ -49,6 +49,9 @@ class AbsController extends Controller
 
     protected function success($msg, $timeout = 3, $url = '', $parent = true)
     {
+        if($url == 'ref') {
+            $url = @$_SERVER['HTTP_REFERER'];
+        }
         return $this->render('@Admin/success.html.twig', [
             'msg' => $msg,
             'timeout' => $timeout,
@@ -59,6 +62,9 @@ class AbsController extends Controller
 
     protected function error($msg, $timeout = 3, $url = '', $parent = true)
     {
+        if($url == 'ref') {
+            $url = @$_SERVER['HTTP_REFERER'];
+        }
         return $this->render('@Admin/error.html.twig', [
             'msg' => $msg,
             'timeout' => $timeout,

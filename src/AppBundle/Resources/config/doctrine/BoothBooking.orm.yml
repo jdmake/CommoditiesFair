@@ -1,0 +1,108 @@
+AppBundle\Entity\BoothBooking:
+    type: entity
+    table: booth_booking
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uid:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 会员UID
+        boothId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 展位id
+            column: booth_id
+        formid:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+                comment: 消息推送码
+            column: formId
+        businessLicense:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                comment: 营业执照
+            column: business_license
+        sfzLicense:
+            type: string
+            nullable: false
+            length: 256
+            options:
+                fixed: false
+                comment: 身份证复印件
+            column: sfz_license
+        sb:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                comment: 商标
+        lsspLicense:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                comment: 绿色食品证书
+            column: lssp_license
+        wghzsLicense:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                comment: 无公害农产品证书
+            column: wghzs_license
+        scxkzLicense:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                comment: 生产许可证
+            column: scxkz_license
+        xgzl:
+            type: string
+            nullable: false
+            length: 1000
+            options:
+                fixed: false
+                comment: 相关资料
+        status:
+            type: integer
+            nullable: false
+            options:
+                comment: '审核状态 0. 待审核  1. 通过  2. 未通过'
+        reviewMessage:
+            type: string
+            nullable: false
+            length: 1000
+            options:
+                fixed: false
+                comment: 审核信息
+            column: review_message
+        createAt:
+            type: datetime
+            nullable: false
+            options:
+                comment: 预订时间
+            column: create_at
+    lifecycleCallbacks: {  }

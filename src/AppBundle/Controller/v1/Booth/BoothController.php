@@ -10,6 +10,7 @@ namespace AppBundle\Controller\v1\Booth;
 
 
 use AppBundle\Controller\Common\CommonController;
+use AppBundle\Entity\BoothBooking;
 use AppBundle\Entity\SalesRecord;
 use AppBundle\Service\BoothService;
 use AppBundle\Service\OrderService;
@@ -70,16 +71,16 @@ class BoothController extends CommonController
         $count = $this->input('count');
         $price = $this->input('price');
 
-        if(empty($id)) {
+        if (empty($id)) {
             return $this->jsonError(1, '展位不能为空');
         }
-        if(empty($goods_name)) {
+        if (empty($goods_name)) {
             return $this->jsonError(1, '商品名称不能为空');
         }
-        if(empty($count)) {
+        if (empty($count)) {
             return $this->jsonError(1, '售出数量不能为空');
         }
-        if(empty($price)) {
+        if (empty($price)) {
             return $this->jsonError(1, '售出价格不能为空');
         }
 
@@ -270,7 +271,7 @@ class BoothController extends CommonController
         $entry = $this->getDoctrine()->getRepository('AppBundle:BoothVerificationUser')->findOneBy([
             'uid' => $this->getUserSession('uid')
         ]);
-        if(!$entry) {
+        if (!$entry) {
             return $this->jsonError(1, '没有权限操作');
         }
 
@@ -279,4 +280,79 @@ class BoothController extends CommonController
 
         return $this->jsonSuccess('展位核销成功', []);
     }
+
+    /**
+     * 提交资质审核
+     * @Route("/submitQualification")
+     */
+    public function submitQualificationAction()
+    {
+        $form = $this->input('form');
+
+        if (empty($form['business_license'])) {
+            return $this->jsonError(1, '营业执照不能为空');
+        }
+        if (empty($form['sfz_license'])) {
+            return $this->jsonError(1, '身份证不能为空');
+        }
+
+        $query = $this->manager()->createQueryBuilder();
+        $res = $query->select('a')
+            ->from('AppBundle:BoothBooking', 'a')
+            ->andWhere('a.boothId=:boothId')->setParameter('boothId', $form['bid'])
+            ->andWhere('a.status!=:status')->setParameter('status', 2)
+            ->getQuery()->getResult();
+        if ($res) {
+            return $this->jsonError(1, '展位已被预订');
+        }
+
+        $bookingEntry = new BoothBooking();
+        $bookingEntry->setUid($this->getUserSession('uid'));
+        $bookingEntry->setFormid($form['formId']);
+        $bookingEntry->setBoothId($form['bid']);
+        $bookingEntry->setBusinessLicense($form['business_license']);
+        $bookingEntry->setLsspLicense($form['lssp_license']);
+        $bookingEntry->setSb($form['sb']);
+        $bookingEntry->setScxkzLicense($form['scxkz_license']);
+        $bookingEntry->setSfzLicense($form['sfz_license']);
+        $bookingEntry->setWghzsLicense($form['wghzs_license']);
+        $bookingEntry->setXgzl(isset($form['xgzl']) ? join(',', $form['xgzl']) : '');
+        $bookingEntry->setStatus(0);
+        $bookingEntry->setReviewMessage('');
+        $bookingEntry->setCreateAt(new \DateTime());
+
+        $this->getDoctrine()->getManager()->persist($bookingEntry);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->jsonSuccess('资质提交成功，请等待管理员审核', $form);
+    }
+
+    /**
+     * 获取我的展位预订列表
+     * @Route("/getMyBooking")
+     */
+    public function getMyBookingAction()
+    {
+        $selected = $this->input('selected', 0);
+
+        $query = $this->manager()->createQueryBuilder();
+        $query->select('a.id, a.uid, a.boothId, a.reviewMessage, a.status, a.createAt, b.title, b.number, b.size, b.price, b.starttime, b.endtime')
+            ->from('AppBundle:BoothBooking', 'a')
+            ->innerJoin('AppBundle:Booth', 'b', 'WITH', 'a.boothId=b.id')
+            ->where('a.uid=:uid')->setParameter('uid', $this->getUserSession('uid'))
+            ->andWhere('a.status=:status')->setParameter('status', $selected)
+            ->orderBy('a.createAt', 'desc');
+
+        $list = $query->getQuery()->getResult();
+        foreach ($list as &$item) {
+            $item['createAt'] = $item['createAt']->format('Y-m-d H:i');
+            $item['starttime'] = $item['starttime']->format('Y-m-d');
+            $item['endtime'] = $item['endtime']->format('Y-m-d');
+        }
+
+        return $this->jsonSuccess('获取我的展位预订列表', [
+            'list' => $list
+        ]);
+    }
+
 }

@@ -30,7 +30,6 @@ class UserController extends CommonController
 
         // 获取 OPENID
         $res = $wxBaseService->code2Session($code);
-
         if (!$res) {
             return $this->jsonError(1, $wxBaseService->getError());
         }

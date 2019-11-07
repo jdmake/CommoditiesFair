@@ -48,6 +48,6 @@ class WxBaseService extends AbsService
             return null;
         }
 
-        return $res;
+        return json_decode($res, true);
     }
 }
