@@ -34,7 +34,7 @@ class DateTime implements TableComponentInterface
             if($value->getTimestamp() < 0) {
                 return '--:--';
             }
-            return date($this->format, $value->getTimestamp());
+            return $value->format($this->format);
         }else {
             return date($this->format, $value);
         }

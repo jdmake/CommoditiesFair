@@ -12,6 +12,12 @@ AppBundle\Entity\Booth:
             generator:
                 strategy: IDENTITY
     fields:
+        tradefair_id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                comment: 展会ID
         row:
             type: integer
             nullable: false
@@ -69,16 +75,6 @@ AppBundle\Entity\Booth:
             options:
                 fixed: false
                 comment: 展位图片集
-        starttime:
-            type: datetime
-            nullable: false
-            options:
-                comment: 开展时间
-        endtime:
-            type: datetime
-            nullable: false
-            options:
-                comment: 结束时间
         content:
             type: text
             nullable: false

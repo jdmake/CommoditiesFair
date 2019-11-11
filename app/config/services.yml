@@ -55,6 +55,10 @@ services:
     public: true
     class: 'AppBundle\Service\BoothService'
     arguments: ["@service_container"]
+  tradefair_service:
+    public: true
+    class: 'AppBundle\Service\TradefairService'
+    arguments: ["@service_container"]
   member_service:
     public: true
     class: 'AppBundle\Service\MemberService'

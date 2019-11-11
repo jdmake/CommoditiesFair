@@ -24,18 +24,18 @@ class BoothService extends AbsService
     /**
      * 获取摊位矩阵数据
      */
-    public function getBoothMatrix()
+    public function getBoothMatrix($tradefair_id)
     {
         // 获取最大行数
-        $maxRow = $this->getDoctrine()->getRepository('AppBundle:Booth')->getMaxRow() + 1;
+        $maxRow = $this->getDoctrine()->getRepository('AppBundle:Booth')->getMaxRow($tradefair_id) + 1;
         // 获取最大列数
-        $maxCol = $this->getDoctrine()->getRepository('AppBundle:Booth')->getMaxCol() + 1;
+        $maxCol = $this->getDoctrine()->getRepository('AppBundle:Booth')->getMaxCol($tradefair_id) + 1;
 
         $booths = [];
         for ($i = 0; $i < $maxRow; $i++) { // 行
             for ($j = 0; $j < $maxCol; $j++) {
                 $entry = $this->getDoctrine()->getRepository('AppBundle:Booth')
-                    ->getBooths($i, $j, true);
+                    ->getBooths($tradefair_id, $i, $j, true);
                 if (!$entry) {
                     $entry = [];
                 }
@@ -89,10 +89,11 @@ class BoothService extends AbsService
      * @param $col
      * @return Booth|object|null
      */
-    public function getBoothByRowCol($row, $col)
+    public function getBoothByRowCol($tid, $row, $col)
     {
         $entry = $this->getDoctrine()->getRepository('AppBundle:Booth')
             ->findOneBy([
+                'tradefair_id' => $tid,
                 'row' => $row,
                 'col' => $col,
             ]);
@@ -151,7 +152,7 @@ class BoothService extends AbsService
     {
         $em = $this->getEm();
         $query = $em->createQueryBuilder();
-        $query->select('a.id,a.uid,a.total,a.verificationCode,a.createAt,a.isuse,b.category,b.title,b.number,b.size,b.price,b.starttime,b.endtime,b.content,b.visits,b.enable')
+        $query->select('a.id,a.uid,a.total,a.verificationCode,a.createAt,a.isuse,b.category,b.title,b.number,b.size,b.price,b.content,b.visits,b.enable')
             ->from('AppBundle:BoothBuyRecord', 'a')
             ->innerJoin('AppBundle:Booth', 'b', 'WITH', 'a.boothId=b.id')
             ->where('a.uid=:uid')
@@ -165,8 +166,6 @@ class BoothService extends AbsService
         $list = $query->getQuery()->getResult();
         foreach ($list as &$item) {
             $item['createAt'] = $item['createAt']->format('Y-m-d H:i');
-            $item['starttime'] = $item['starttime']->format('Y-m-d');
-            $item['endtime'] = $item['endtime']->format('Y-m-d');
         }
         $total = $this->getTotal($query);
         return [
@@ -187,7 +186,7 @@ class BoothService extends AbsService
     {
         $em = $this->getEm();
         $query = $em->createQueryBuilder();
-        $query->select('a.id,a.uid,d.nickname,d.avatar,a.total,a.verificationCode,a.createAt,a.isuse,b.category,b.title,b.number,b.size,b.price,b.starttime,b.endtime,b.content,b.visits,b.enable')
+        $query->select('a.id,a.uid,d.nickname,d.avatar,a.total,a.verificationCode,a.createAt,a.isuse,b.category,b.title,b.number,b.size,b.price,b.content,b.visits,b.enable')
             ->from('AppBundle:BoothBuyRecord', 'a')
             ->innerJoin('AppBundle:Booth', 'b', 'WITH', 'a.boothId=b.id')
             ->innerJoin('AppBundle:Member', 'c', 'WITH', 'c.uid=a.uid')
@@ -215,6 +214,7 @@ class BoothService extends AbsService
     {
         $entry = new Booth();
         $entry->setRow($form['row']);
+        $entry->setTradefairId($form['tid']);
         $entry->setCol($form['col']);
         $entry->setCategory($form['category']);
         $entry->setSort(0);
@@ -223,16 +223,6 @@ class BoothService extends AbsService
         $entry->setSize($form['size']);
         $entry->setPrice($form['price']);
         $entry->setPicture(isset($form['picture']) ? join(',', $form['picture']) : '');
-        $entry->setStarttime(new \DateTime(sprintf('%s-%s-%s',
-            $form['starttime']['year'],
-            $form['starttime']['month'],
-            $form['starttime']['day']
-        )));
-        $entry->setEndtime(new \DateTime(sprintf('%s-%s-%s',
-            $form['endtime']['year'],
-            $form['endtime']['month'],
-            $form['endtime']['day']
-        )));
         $entry->setContent($form['content']);
         $entry->setVisits(0);
         $entry->setEnable(true);
@@ -253,6 +243,7 @@ class BoothService extends AbsService
     {
         $entry = $this->getDoctrine()->getRepository('AppBundle:Booth')
             ->findOneBy([
+                'tradefair_id' => $form['tid'],
                 'row' => $row,
                 'col' => $col,
             ]);
@@ -267,16 +258,6 @@ class BoothService extends AbsService
         $entry->setSize($form['size']);
         $entry->setPrice($form['price']);
         $entry->setPicture(isset($form['picture']) ? join(',', $form['picture']) : '');
-        $entry->setStarttime(new \DateTime(sprintf('%s-%s-%s',
-            $form['starttime']['year'],
-            $form['starttime']['month'],
-            $form['starttime']['day']
-        )));
-        $entry->setEndtime(new \DateTime(sprintf('%s-%s-%s',
-            $form['endtime']['year'],
-            $form['endtime']['month'],
-            $form['endtime']['day']
-        )));
         $entry->setContent($form['content']);
         $this->getEm()->flush($entry);
 

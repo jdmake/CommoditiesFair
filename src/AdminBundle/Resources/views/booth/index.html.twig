@@ -3,6 +3,10 @@
     style="background: #efefef;padding: 15px"
 {% endblock %}
 {% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('admin_tradefair_index') }}"><i class="fa-sitemap"></i>展位管理</a></li>
+        <li class="active">编辑展位</li>
+    </ol>
     <div id="root">
         <div v-for="i in row" class="booth__row" :style="{ width: (108 * col) + 'px' }">
             <div
@@ -47,7 +51,7 @@
             methods: {
                 getBooths: function (callback) {
                     $.ajax({
-                        url: '{{ path('admin_booth_getBooths') }}',
+                        url: '{{ path('admin_booth_getBooths', {tid: app.request.get('tid') }) }}',
                         type: 'get'
                     }).then(function (res) {
                         if (res.error > 0) {
@@ -61,7 +65,7 @@
                     var type = e.currentTarget.dataset.type;
                     var row = e.currentTarget.dataset.row;
                     var col = e.currentTarget.dataset.col;
-                    var content = '{{ path('admin_booth_edit') }}?row=' + row + '&col=' + col;
+                    var content = '{{ path('admin_booth_edit', {tid: app.request.get('tid') }) }}&row=' + row + '&col=' + col;
                     layer.open({
                         type: 2,
                         title: '编辑展位, ' + row + '行，' + col + '列',
@@ -77,7 +81,7 @@
                     var col = e.currentTarget.dataset.col;
                     if(confirm('真的要删除吗？')) {
                         $.ajax({
-                            url: '{{ path('admin_booth_remove') }}' + '?row=' + row + '&col=' + col,
+                            url: '{{ path('admin_booth_remove', {tid: app.request.get('tid') }) }}' + '&row=' + row + '&col=' + col,
                             type: 'post'
                         }).then(function (res) {
                             if (res.error > 0) {

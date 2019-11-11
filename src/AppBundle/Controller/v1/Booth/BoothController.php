@@ -32,7 +32,9 @@ class BoothController extends CommonController
      */
     public function getEnableBoothAction(BoothService $boothService)
     {
-        $booths = $boothService->getBoothMatrix();
+        $id = $this->input('id');
+
+        $booths = $boothService->getBoothMatrix($id);
 
         return $this->jsonSuccess('获取可用展位', [
             'booths' => $booths

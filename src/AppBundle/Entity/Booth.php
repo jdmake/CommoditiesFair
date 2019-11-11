@@ -13,6 +13,10 @@ class Booth extends AbsEntry
      * @var int
      */
     private $id;
+    /**
+     * @var int
+     */
+    private $tradefair_id;
 
     /**
      * @var integer
@@ -48,16 +52,6 @@ class Booth extends AbsEntry
      * @var string
      */
     private $picture;
-
-    /**
-     * @var \DateTime
-     */
-    private $starttime;
-
-    /**
-     * @var \DateTime
-     */
-    private $endtime;
 
     /**
      * @var string
@@ -98,6 +92,24 @@ class Booth extends AbsEntry
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getTradefairId()
+    {
+        return $this->tradefair_id;
+    }
+
+    /**
+     * @param int $tradefair_id
+     */
+    public function setTradefairId($tradefair_id)
+    {
+        $this->tradefair_id = $tradefair_id;
+    }
+
+
 
     /**
      * Get category.
@@ -251,54 +263,6 @@ class Booth extends AbsEntry
     public function getPicture()
     {
         return $this->picture;
-    }
-
-    /**
-     * Set starttime.
-     *
-     * @param \DateTime $starttime
-     *
-     * @return Booth
-     */
-    public function setStarttime($starttime)
-    {
-        $this->starttime = $starttime;
-
-        return $this;
-    }
-
-    /**
-     * Get starttime.
-     *
-     * @return \DateTime
-     */
-    public function getStarttime()
-    {
-        return $this->starttime;
-    }
-
-    /**
-     * Set endtime.
-     *
-     * @param \DateTime $endtime
-     *
-     * @return Booth
-     */
-    public function setEndtime($endtime)
-    {
-        $this->endtime = $endtime;
-
-        return $this;
-    }
-
-    /**
-     * Get endtime.
-     *
-     * @return \DateTime
-     */
-    public function getEndtime()
-    {
-        return $this->endtime;
     }
 
     /**

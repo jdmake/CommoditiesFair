@@ -102,7 +102,7 @@ class BookingController extends AbsController
             'tableView' => $tableView,
             'pagination' => $pagination
         ]);
-    }
+    } 
 
     /**
      * @Route("/edit")

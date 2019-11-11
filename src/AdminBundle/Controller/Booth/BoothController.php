@@ -35,8 +35,9 @@ class BoothController extends AbsController
      */
     public function getBoothsAction()
     {
+        $tid = $this->request()->get('tid');
         $boothService = $this->get('booth_service');
-        $booths = $boothService->getBoothMatrix();
+        $booths = $boothService->getBoothMatrix($tid);
         $row = 50;
         $col = 50;
 
@@ -53,6 +54,7 @@ class BoothController extends AbsController
      */
     public function editAction()
     {
+        $tid = $this->request()->get('tid');
         $row = $this->request()->get('row');
         $col = $this->request()->get('col');
 
@@ -60,7 +62,8 @@ class BoothController extends AbsController
             ->getCategoryChoices();
 
         $boothService = $this->get('booth_service');
-        $booth_entry = $boothService->getBoothByRowCol($row, $col);
+        $booth_entry = $boothService->getBoothByRowCol($tid, $row, $col);
+
         if($booth_entry && !empty($booth_entry->getPicture())) {
             $booth_entry->setPicture(explode(',', $booth_entry->getPicture()));
         }
@@ -89,12 +92,6 @@ class BoothController extends AbsController
             ->add("picture", "AdminBundle\Custom\Form\Type\PictureUpload", [
                 'label' => '图片集'
             ])
-            ->add("starttime", "Symfony\Component\Form\Extension\Core\Type\DateType", [
-                'label' => '开始时间'
-            ])
-            ->add("endtime", "Symfony\Component\Form\Extension\Core\Type\DateType", [
-                'label' => '结束时间'
-            ])
             ->add("submit", "Symfony\Component\Form\Extension\Core\Type\SubmitType",
                 ['label' => '保存提交'])
             ->getForm();
@@ -102,6 +99,7 @@ class BoothController extends AbsController
 
         if ($this->request()->getMethod() == 'POST') {
             $form = $this->request()->get('form');
+            $form['tid'] = $tid;
 
             $errors = $this->validator($form, [
                 'title' => new NotBlank(['message' => '名称不能为空']),
@@ -111,7 +109,7 @@ class BoothController extends AbsController
             ]);
 
             if (count($errors) > 0) {
-                return $this->error(join("<br/>", $errors), 5, "/admin/booth/edit?row={$row}&col={$col}", false);
+                return $this->error(join("<br/>", $errors), 5, "/admin/booth/edit?tid={$tid}&row={$row}&col={$col}", false);
             }
 
 
@@ -119,12 +117,12 @@ class BoothController extends AbsController
             if(!$booth_entry) {
                 $booth_id = $boothService->createBooth($form);
                 if($booth_id <= 0) {
-                    return $this->error('创建展位失败', 5, "/admin/booth/edit?row={$row}&col={$col}", false);
+                    return $this->error('创建展位失败', 5, "/admin/booth/edit?tid={$tid}&row={$row}&col={$col}", false);
                 }
             }else {
                 $res = $boothService->updateBooth($row, $col, $form);
                 if(!$res) {
-                    return $this->error('编辑展位失败', 5, "/admin/booth/edit?row={$row}&col={$col}", false);
+                    return $this->error('编辑展位失败', 5, "/admin/booth/edit?tid={$tid}&row={$row}&col={$col}", false);
                 }
             }
 

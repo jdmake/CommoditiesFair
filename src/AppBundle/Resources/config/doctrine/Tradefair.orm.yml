@@ -1,0 +1,50 @@
+AppBundle\Entity\Tradefair:
+    type: entity
+    table: tradefair
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+                comment: 展会名称
+        tradefairdesc:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+                comment: 展会描述
+        picture:
+            type: string
+            nullable: false
+            length: 256
+            options:
+                fixed: false
+                comment: 展会图片
+        starttime:
+            type: datetime
+            nullable: false
+            options:
+                comment: 开始时间
+        endtime:
+            type: datetime
+            nullable: false
+            options:
+                comment: 结束时间
+        isenable:
+            type: boolean
+            nullable: false
+            options:
+                comment: 是否可用
+    lifecycleCallbacks: {  }
